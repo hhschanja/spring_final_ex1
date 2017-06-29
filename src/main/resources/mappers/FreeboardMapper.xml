@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="FreeboardMapper">
+	<insert id="write" parameterType="java.util.Map" statementType="CALLABLE"> <!-- 기존에 우리가 쓰던 preparestatement는 statement야 그런데 프로시저를 부르는거는 CALLABLE -->
+		{ call freeboard_write(#{freeboardDTO.writer, mode=IN}, #{freeboardDTO.title, mode=IN}, #{freeboardDTO.contents, mode=IN}, #{result, mode=OUT, javaType=int, jdbcType=INTEGER}) } 
+	</insert><!-- map으로 받으면 그 map안에 하나이ㅡ DTO가 들어있잖아 -->
+	<update id="update" parameterType="java.util.Map" statementType="CALLABLE">
+		{ call freeboard_update(#{freeboardDTO.num,mode=IN},#{freeboardDTO.title,mode=IN},#{freeboardDTO.contents,mode=IN},#{result,mode=OUT,javaType=int,jdbcType=INTEGER}) }
+	</update>
+	<insert id="reply" parameterType="java.util.Map" statementType="CALLABLE">
+		{ call freeboard_reply(#{freeboardDTO.num,mode=IN},#{freeboardDTO.writer, mode=IN},#{freeboardDTO.title,mode=IN},#{freeboardDTO.contents,mode=IN},#{result,mode=OUT,javaType=int,jdbcType=INTEGER}) }
+	</insert>
+  </mapper>
+  <!-- DB 프로시저에서 리턴받은 result값이 저절로 map에 들어가는거야 그래서 map에서 키값으로 result를 빼오는거지 -->
+    
+    
+    
